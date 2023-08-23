@@ -27,7 +27,7 @@ def handle_users():
                          "status": "ok"}
 
         return response_body, 200
-    if request.method == 'POST' :
+    if request.method == 'POST' : #signup
         request_body = request.get_json()
         user = User(email = request_body["email"],
                     password = request_body["password"],
@@ -40,3 +40,46 @@ def handle_users():
                          "status": "ok",
                          "new user": request_body}
         return response_body, 200
+    
+
+@api.route('/users/<int:id>', methods= ['GET', 'PUT', 'DELETE'])
+def handle_user(id):
+
+    if request.method == 'GET' :
+        user = db.get_or_404(User, id)
+        print(user)
+        response_body = {"status": "ok",
+                         "results": user.serialize()
+                         }
+        
+    if request.method == 'PUT' :
+        request_body = request.get_json()
+        user = db.get_or_404(User, id)    
+        user.email = request_body["email"]
+        user.password = request_body["password"]
+        user.name = request_body["name"]
+        user.phone = request_body["phone"]
+        db.session.commit()
+
+        response_body = {"message": "Update user",
+                         "status": "ok",
+                         "user": request_body}
+        
+        return response_body, 200
+    
+    if request.method == 'DELETE' :
+        user = db.get_or_404(User, id)
+        db.session.delete(user)
+        db.session.commit()
+        response_body = {"message": "DELETE user",
+                         "status": "ok",
+                         "user_deleting": id}
+        
+        return response_body, 200
+
+
+    
+                                 
+
+
+    
