@@ -51,6 +51,7 @@ def handle_user(id):
         response_body = {"status": "ok",
                          "results": user.serialize()
                          }
+        return response_body, 200
         
     if request.method == 'PUT' :
         request_body = request.get_json()
