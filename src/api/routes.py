@@ -27,6 +27,7 @@ def handle_users():
                          "status": "ok"}
 
         return response_body, 200
+    
     if request.method == 'POST' : #signup
         request_body = request.get_json()
         user = User(email = request_body["email"],
@@ -39,6 +40,7 @@ def handle_users():
         response_body = {"message": "Adding new user",
                          "status": "ok",
                          "new user": request_body}
+        
         return response_body, 200
     
 
@@ -51,6 +53,7 @@ def handle_user(id):
         response_body = {"status": "ok",
                          "results": user.serialize()
                          }
+        return response_body, 200
         
     if request.method == 'PUT' :
         request_body = request.get_json()
